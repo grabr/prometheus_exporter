@@ -22,6 +22,8 @@ module PrometheusExporter::Server
     end
 
     def collect(stats)
+      @puma_metrics = {}
+
       # if this is not nil we assume that Puma is running in cluster mode
       if stats['puma_cluster_workers_count']
         collect_cluster_metrics(stats)

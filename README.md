@@ -148,6 +148,8 @@ end
 
 Collecting Puma server stats
 
+*Some stats (pool_capacity and max_threads) are not available in older versions of Puma*
+
 ```ruby
 # clustered mode
 # puma.rb
