@@ -23,6 +23,7 @@ module PrometheusExporter::Instrumentation
 
     def collect
       stats = JSON.parse(Puma.stats)
+
       metrics =
         if stats['workers']
           collect_for_clustered(stats)
@@ -44,7 +45,7 @@ module PrometheusExporter::Instrumentation
 
       stats['worker_status'].each do |w|
         m = { pid: w['pid'], index: w['index'] }
-        m.merge!(collect_for_single(stats['last_status']))
+        m.merge!(collect_for_single(w['last_status']))
 
         metrics[:workers_stats] << m
       end
