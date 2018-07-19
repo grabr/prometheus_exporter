@@ -146,6 +146,22 @@ end
 
 ```
 
+Collecting Puma server stats
+
+```ruby
+# clustered mode
+# puma.rb
+before_fork do
+  require 'prometheus_exporter/instrumentation'
+  PrometheusExporter::Instrumentation::PumaStats.start(frequency: 10)
+end
+
+# single mode
+# config/initializers/puma_stats.rb
+require 'prometheus_exporter/instrumentation'
+PrometheusExporter::Instrumentation::PumaStats.start(frequency: 10)
+```
+
 Including Sidekiq metrics (how many jobs ran? how many failed? how long did they take?)
 
 ```ruby
