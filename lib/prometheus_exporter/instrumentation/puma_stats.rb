@@ -1,10 +1,13 @@
 module PrometheusExporter::Instrumentation
   class PumaStats
-    def self.start(client: nil, frequency: 3)
+    def self.start(client: nil, frequency: 3, puma_startup_timeout: 10)
       collector = self.new
       client ||= PrometheusExporter::Client.default
 
       Thread.new do
+        # wait til server started and Puma.stats object is available
+        sleep puma_startup_timeout
+
         loop do
           begin
             metric = collector.collect
